@@ -5,5 +5,5 @@ const iframe = document.querySelector("iframe");
 const player = new Player(iframe);
 
 player.on("play", (event) => {
-    localStorage.getItem("klucz",event.duration);
+    localStorage.setItem("klucz",event.duration);
 });
