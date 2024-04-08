@@ -48,4 +48,4 @@ window.onload = () => {
             console.error('Wystąpił błąd:', error);
         });
     }
-};
+}; 
