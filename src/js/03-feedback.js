@@ -1,17 +1,19 @@
-import { every, throttle  } from "lodash";
+import { throttle  } from "lodash";
 
 const form = document.querySelector("form");
 
 const key = "feedback-form-state";
-const zmienna = JSON.parse(localStorage.getItem(key)) || {};
-form.elements.email.value = zmienna.value;
-form.elements.message.value = zmienna.message;
+const storage = JSON.parse(localStorage.getItem(key)) || {};
+form.elements.email.value = storage.email;
+form.elements.message.value = storage.message;
 
-form.addEventListener("input", (event) => {
-    const {name, value} = event.target;
-    zmienna[name] = value;
-    localStorage.setItem(key, JSON.stringify(zmienna));
-});
+const save = throttle((event) => {
+        const {name, value} = event.target;
+        storage[name] = value;
+            localStorage.setItem(key, JSON.stringify(storage));
+    },500);
+form.addEventListener("input", save);
+
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
