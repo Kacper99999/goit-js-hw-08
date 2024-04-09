@@ -1,25 +1,23 @@
 import Player from '@vimeo/player';
-
+import { throttle } from 'lodash';
 
 const iframe = document.querySelector("iframe");
 const player = new Player(iframe);
 
-player.on("timeupdate",(event) => {
+
+const throttled = throttle((event) => {
     const currentTime = event.seconds
-    localStorage.setItem("videoplayer-current-time", currentTime);
     player.setCurrentTime(currentTime).then(() =>{
-    
     }).catch(function(error) {
         switch (error.name) {
             case 'RangeError':
-
                 break;
-    
-            default:
 
+            default:
                 break;
         }
 })
-});
+},1000)
+player.on("timeupdate",throttled);
 
 
