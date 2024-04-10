@@ -3,12 +3,14 @@ import { throttle  } from "lodash";
 const form = document.querySelector("form");
 
 const storage = JSON.parse(localStorage.getItem("feedback-form-state"));
-form.elements.email.value = storage.email;
-form.elements.message.value = storage.message;
+ 
 
 const save = throttle((event) => {
-        const {name, value} = event.target;
-        storage[name] = value;
+        const email = event.target.email.value;
+        const message = event.target.message.value;
+        storage.email = email;
+        storage.message = message;
+        console.log(storage);
             localStorage.setItem("feedback-form-state", JSON.stringify(storage));
     },500);
 
