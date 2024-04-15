@@ -3,12 +3,10 @@ import { throttle  } from "lodash";
 const form = document.querySelector(".feedback-form");
 
 function storage(){
-    const email = form.elements.email.value;
-    const message = form.elements.message.value;
-  return {email, message}
+    const email = form.elements.email.value || "";
+    const message = form.elements.message.value || "";
+    return {email, message};
 };
-
-
 const save = throttle(() => {
         const currentStorage = storage();
         localStorage.setItem("feedback-form-state", JSON.stringify(currentStorage));
@@ -17,12 +15,14 @@ const save = throttle(() => {
 form.addEventListener("input", save);
 
 const savedData = JSON.parse(localStorage.getItem("feedback-form-state"));
-
-form.elements.email.value = savedData.email;
-form.elements.message.value = savedData.message;
+if(savedData){
+    form.elements.email.value = savedData.email;
+    form.elements.message.value = savedData.message;
+}
 
 form.addEventListener("submit", (event) => {
     event.preventDefault();
-    localStorage.removeItem("feedback-form-state")
+    console.log(savedData);
+    localStorage.removeItem("feedback-form-state");
     form.reset();
 }); 
